@@ -4,7 +4,7 @@ namespace FileConverterService
 {
 	internal static class Program
 	{
-		private static void Main(string[] args)
+		private static void Main()
 		{
 			HostFactory.Run(serviceConfig =>
 			{
@@ -14,8 +14,8 @@ namespace FileConverterService
 						serviceInstance.WhenStarted(execute => execute.Start());
 						serviceInstance.WhenStopped(execute => execute.Stop());
 					});
-				serviceConfig.SetServiceName("AwesomFileConverter");
-				serviceConfig.SetDisplayName("Awesom File Converter");
+				serviceConfig.SetServiceName("AwesomeFileConverter");
+				serviceConfig.SetDisplayName("Awesome File Converter");
 				serviceConfig.SetDescription("A Pluralsight demo service.");
 
 				serviceConfig.StartAutomatically();

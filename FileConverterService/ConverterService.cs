@@ -4,11 +4,14 @@ namespace FileConverterService
 {
 	public class ConverterService
 	{
+		private const string DIR = @"c:\temp\a";
+
 		private FileSystemWatcher _watcher;
 
 		public bool Start()
 		{
-			_watcher = new FileSystemWatcher(@"c:\temp\a", "*_in.txt")
+			Directory.CreateDirectory(DIR);
+			_watcher = new FileSystemWatcher(DIR, "*_in.txt")
 			{
 				IncludeSubdirectories = false,
 				EnableRaisingEvents = true
