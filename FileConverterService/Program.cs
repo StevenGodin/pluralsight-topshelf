@@ -8,6 +8,7 @@ namespace FileConverterService
 		{
 			HostFactory.Run(serviceConfig =>
 			{
+				serviceConfig.UseNLog();
 				serviceConfig.Service<ConverterService>(serviceInstance =>
 					{
 						serviceInstance.ConstructUsing(() => new ConverterService());

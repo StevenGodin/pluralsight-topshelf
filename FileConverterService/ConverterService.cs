@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using Topshelf.Logging;
 
 namespace FileConverterService
 {
@@ -7,6 +8,7 @@ namespace FileConverterService
 		private const string DIR = @"c:\temp\a";
 
 		private FileSystemWatcher _watcher;
+		private readonly LogWriter _log = HostLogger.Get<ConverterService>();
 
 		public bool Start()
 		{
@@ -22,8 +24,10 @@ namespace FileConverterService
 			return true;
 		}
 
-		private static void FileCreated(object sender, FileSystemEventArgs e)
+		private void FileCreated(object sender, FileSystemEventArgs e)
 		{
+			_log.Info($"Starting conversion of '{e.FullPath}'");
+
 			var content = File.ReadAllText(e.FullPath);
 
 			var upperContent = content.ToUpperInvariant();
