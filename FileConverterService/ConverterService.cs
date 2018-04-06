@@ -26,6 +26,18 @@ namespace FileConverterService
 			return true;
 		}
 
+		public bool Pause()
+		{
+			_watcher.EnableRaisingEvents = false;
+			return true;
+		}
+
+		public bool Continue()
+		{
+			_watcher.EnableRaisingEvents = true;
+			return true;
+		}
+
 		private void FileCreated(object sender, FileSystemEventArgs e)
 		{
 			_log.Info($"Starting conversion of '{e.FullPath}'");

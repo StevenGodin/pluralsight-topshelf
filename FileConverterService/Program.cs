@@ -17,7 +17,10 @@ namespace FileConverterService
 					serviceInstance.ConstructUsing(() => new ConverterService());
 					serviceInstance.WhenStarted(execute => execute.Start());
 					serviceInstance.WhenStopped(execute => execute.Stop());
+					serviceInstance.WhenPaused(execute => execute.Pause());
+					serviceInstance.WhenContinued(execute => execute.Continue());
 				});
+				serviceConfig.EnablePauseAndContinue();
 
 				serviceConfig.EnableServiceRecovery(recoveryConfig =>
 				{
