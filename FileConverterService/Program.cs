@@ -1,4 +1,5 @@
 ﻿using Topshelf;
+using Topshelf.Logging;
 
 namespace FileConverterService
 {
@@ -30,6 +31,9 @@ namespace FileConverterService
 					recoveryConfig.RestartService(1);
 					recoveryConfig.RestartService(1);
 				});
+
+				serviceConfig.OnException(exception => 
+					HostLogger.Get("Unhandled Exception").Fatal(exception));
 
 				serviceConfig.StartAutomatically();
 				serviceConfig.RunAsLocalService();
