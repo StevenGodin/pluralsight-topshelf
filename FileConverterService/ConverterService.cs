@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Threading;
 using Topshelf.Logging;
 
 namespace FileConverterService
@@ -28,7 +30,16 @@ namespace FileConverterService
 		{
 			_log.Info($"Starting conversion of '{e.FullPath}'");
 
-			var content = File.ReadAllText(e.FullPath);
+			// To simulate an unhandled exception
+			if (e.FullPath.Contains("bad_in"))
+				throw new NotSupportedException("Cannot convert");
+
+			var content = ReadAllTextWithRetry(e.FullPath);
+			if (content == null)
+			{
+				_log.Warn($"Failed to read file '{e.FullPath}'.");
+				return;
+			}
 
 			var upperContent = content.ToUpperInvariant();
 			var dir = Path.GetDirectoryName(e.FullPath);
@@ -36,6 +47,22 @@ namespace FileConverterService
 			var convertedPath = Path.Combine(dir, convertedFileName);
 
 			File.WriteAllText(convertedPath, upperContent);
+		}
+
+		private string ReadAllTextWithRetry(string path, int maxTryCount = 10, int retryDelay = 2000)
+		{
+			for (var retry = 0; retry < maxTryCount; retry++)
+			try
+			{
+				return File.ReadAllText(path);
+			}
+			catch (IOException)
+			{
+				if (retry < maxTryCount - 1)
+					Thread.Sleep(retryDelay);
+			}
+
+			return null;
 		}
 
 		public bool Stop()
