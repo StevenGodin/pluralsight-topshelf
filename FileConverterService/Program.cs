@@ -19,6 +19,8 @@ namespace FileConverterService
 					serviceInstance.WhenStopped(execute => execute.Stop());
 					serviceInstance.WhenPaused(execute => execute.Pause());
 					serviceInstance.WhenContinued(execute => execute.Continue());
+					serviceInstance.WhenCustomCommandReceived(
+						(execute, hostControl, commandNumber) => execute.CustomCommand(commandNumber));
 				});
 				serviceConfig.EnablePauseAndContinue();
 

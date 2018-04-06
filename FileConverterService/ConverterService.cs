@@ -38,6 +38,11 @@ namespace FileConverterService
 			return true;
 		}
 
+		public void CustomCommand(int commandNumber)
+		{
+			_log.Info($"Command number '{commandNumber}' received.");
+		}
+
 		private void FileCreated(object sender, FileSystemEventArgs e)
 		{
 			_log.Info($"Starting conversion of '{e.FullPath}'");
